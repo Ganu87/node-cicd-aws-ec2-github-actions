@@ -1,9 +1,9 @@
-name: Deploy to Windows EC2
+name: Deploy to EC2
 
 on:
   push:
     branches:
-      - main
+      - main  # or your deploy branch
 
 jobs:
   deploy:
@@ -13,18 +13,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup SSH
+      - name: Decode SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          echo "${{ secrets.EC2_KEY }}" | base64 -d > ~/.ssh/ec2_key.pem
+          chmod 600 ~/.ssh/ec2_key.pem
 
-      - name: Deploy via SCP
+      - name: Copy files to EC2
         run: |
-          scp -r . ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:"${{ secrets.EC2_DEST_PATH }}"
+          rsync -avz -e "ssh -i ~/.ssh/ec2_key.pem -o StrictHostKeyChecking=no" ./ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/app
 
-      - name: Start Node App (optional)
+      - name: SSH and deploy
         run: |
-          ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} \
-          "cd ${ secrets.EC2_DEST_PATH } && npm install && npx kill-port 3000 && start /B node app.js"
+          ssh -i ~/.ssh/ec2_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            cd /home/${{ secrets.EC2_USER }}/app
+            npm install
+            pm2 restart myapp || pm2 start app.js --name myapp
+          EOF
