@@ -1,9 +1,10 @@
 name: Deploy to EC2
 
 on:
-  push:
-    branches:
-      - main  # or your deploy branch
+  workflow_dispatch:  # Manual trigger only
+  #push:
+    #branches:
+      #- main  # or your deploy branch
 
 jobs:
   deploy:
