@@ -11,6 +11,7 @@ const multiply = (a, b) => {
     return a * b;
 }   
 
+// add div func
 module.exports={
     add: add,
     subtract: subtract,
