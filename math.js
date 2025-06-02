@@ -7,7 +7,7 @@ const subtract = (a, b) => {
     return a - b;       
 }
 
-module.exports = {
+Please cretae arithmatic class and exprort the class
     add: add,
     subtract: subtract
 }
