@@ -10,6 +10,7 @@ const subtract = (a, b) => {
 const multiply = (a, b) => {
     return a * b;
 }   
+// add div function
 
 module.exports={
     add: add,
