@@ -7,7 +7,12 @@ const subtract = (a, b) => {
     return a - b;       
 }
 
-Please cretae arithmatic class and exprort the class
+const multiply = (a, b) => {
+    return a * b;
+}   
+
+module.exports={
     add: add,
-    subtract: subtract
+    subtract: subtract,
+    multiply: multiply
 }
