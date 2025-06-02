@@ -4,6 +4,6 @@ const add = (a, b) => {
 }
 
 
-module.exports = {
+Please cretae arithmatic class and exprort the class
     add: add,
 }
