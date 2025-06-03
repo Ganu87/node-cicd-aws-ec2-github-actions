@@ -11,6 +11,8 @@ const multiply = (a, b) => {
     return a * b;
 }   
 
+/// created new dev1.1 branch
+
 // add func 111
 module.exports={
     add: add,
