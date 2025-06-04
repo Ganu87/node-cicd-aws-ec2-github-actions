@@ -7,3 +7,5 @@ function add(a, b) {
 // Example usage:
 console.log(add(2, 3)); // Output: 5
 
+console.log("commit 1.4");
+
